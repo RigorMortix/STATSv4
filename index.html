@@ -94,10 +94,16 @@ button{
 </head>
 <body>
 
-<h2>Tournoi</h2>
+<h2>Selection Tournoi</h2>
 
-<label>Tournament ID</label>
-<input id="tournamentId" oninput="this.value=this.value.toUpperCase()">
+<label>Tournoi</label>
+<select id="tournamentId">
+<option value="Testtraining">TEST</option>
+</select>
+
+<!-- <option value="BroDo">Brochet d'Or</option>
+<option value="OpenMTP">Open de Montpellier</option>
+<option value="GInvit">Gones Invit</option>-->
 
 <label>Phase</label>
 <select id="phase">
@@ -107,7 +113,14 @@ button{
 </select>
 
 <label>Match</label>
-<input id="matchNumber">
+<input 
+  id="matchNumber"
+  type="text"
+  inputmode="numeric"
+  pattern="[0-9]*"
+  maxlength="3"
+  required
+>
 
 <label>Station</label>
 <select id="station">
@@ -211,4 +224,3 @@ renderPlayers();
 </script>
 </body>
 </html>
-
