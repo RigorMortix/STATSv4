@@ -56,6 +56,22 @@ button{
  font-weight:600;
 }
 
+.feedback{
+ margin-top:8px;
+ font-weight:600;
+ opacity:0;
+ transition:opacity .2s ease;
+ min-height:22px;
+}
+
+.feedback.visible{
+ opacity:1;
+}
+
+.feedback.success{
+ color:var(--success);
+}
+
 .primary{
  background:var(--primary);
  color:white;
@@ -128,7 +144,8 @@ button{
 <option value="B">B</option>
 </select>
 
-<button onclick="saveContext()">Valider contexte</button>
+<button id="contextBtn" onclick="saveContext()">Valider contexte</button>
+<p id="contextFeedback" class="feedback" aria-live="polite"></p>
 
 <hr>
 
@@ -155,6 +172,7 @@ let PLAYERS = JSON.parse(localStorage.getItem("players_registry")) || [
 ];
 
 let selected=[];
+let feedbackTimer;
 
 function getDisplayName(p){
  return p.display_name?.trim()?p.display_name:p.full_name;
@@ -169,6 +187,15 @@ function saveContext(){
   document.getElementById("matchNumber").value);
  localStorage.setItem("station_id",
   document.getElementById("station").value);
+
+ const feedback=document.getElementById("contextFeedback");
+ feedback.textContent="Contexte validé ✅";
+ feedback.className="feedback visible success";
+
+ clearTimeout(feedbackTimer);
+ feedbackTimer=setTimeout(()=>{
+  feedback.classList.remove("visible");
+ },1800);
 }
 
 function renderPlayers(){
