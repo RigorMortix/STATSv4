@@ -179,23 +179,43 @@ function getDisplayName(p){
 }
 
 function saveContext(){
- localStorage.setItem("tournament_id",
-  document.getElementById("tournamentId").value);
- localStorage.setItem("phase",
-  document.getElementById("phase").value);
- localStorage.setItem("match_number",
-  document.getElementById("matchNumber").value);
- localStorage.setItem("station_id",
-  document.getElementById("station").value);
+  localStorage.setItem("tournament_id", document.getElementById("tournamentId").value);
+  localStorage.setItem("phase", document.getElementById("phase").value);
+  localStorage.setItem("match_number", document.getElementById("matchNumber").value);
+  localStorage.setItem("station_id", document.getElementById("station").value);
 
- const feedback=document.getElementById("contextFeedback");
- feedback.textContent="Contexte validé ✅";
- feedback.className="feedback visible success";
+  lockContext();
 
- clearTimeout(feedbackTimer);
- feedbackTimer=setTimeout(()=>{
-  feedback.classList.remove("visible");
- },1800);
+  const feedback = document.getElementById("contextFeedback");
+  feedback.textContent = "Contexte validé ✅";
+  feedback.className = "feedback visible success";
+
+  clearTimeout(feedbackTimer);
+  feedbackTimer = setTimeout(() => {
+    feedback.classList.remove("visible");
+  }, 1800);
+}
+
+function lockContext(){
+  ["tournamentId","phase","matchNumber","station"].forEach(id => {
+    document.getElementById(id).disabled = true;
+  });
+  const btn = document.getElementById("contextBtn");
+  btn.textContent = "Modifier";
+  btn.onclick = unlockContext;
+}
+
+function unlockContext(){
+  ["tournamentId","phase","matchNumber","station"].forEach(id => {
+    document.getElementById(id).disabled = false;
+  });
+  const btn = document.getElementById("contextBtn");
+  btn.textContent = "Valider contexte";
+  btn.onclick = saveContext;
+
+  const feedback = document.getElementById("contextFeedback");
+  feedback.textContent = "";
+  feedback.className = "feedback";
 }
 
 function renderPlayers(){
@@ -251,3 +271,4 @@ renderPlayers();
 </script>
 </body>
 </html>
+
